@@ -1,0 +1,21 @@
+
+version: "3.8"
+services:
+  ingest:
+    build: .
+    command: python3 ingest.py
+    volumes:
+      - ./data:/data
+      - shared_data:/shared
+
+  process:
+    build: .
+    command: python3 process.py
+    depends_on:
+      - ingest
+    volumes:
+      - .:/app
+      - shared_data:/shared
+
+volumes:
+  shared_data:
